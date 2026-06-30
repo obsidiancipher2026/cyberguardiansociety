@@ -23,17 +23,21 @@ const logger = winston.createLogger({
         })
       ),
     }),
-    new winston.transports.File({
-      filename: path.join(logDir, 'error.log'),
-      level: 'error',
-      maxsize: 5242880,
-      maxFiles: 5,
-    }),
-    new winston.transports.File({
-      filename: path.join(logDir, 'combined.log'),
-      maxsize: 5242880,
-      maxFiles: 10,
-    }),
+    ...(process.env.NODE_ENV !== 'production'
+      ? [
+          new winston.transports.File({
+            filename: path.join(logDir, 'error.log'),
+            level: 'error',
+            maxsize: 5242880,
+            maxFiles: 5,
+          }),
+          new winston.transports.File({
+            filename: path.join(logDir, 'combined.log'),
+            maxsize: 5242880,
+            maxFiles: 10,
+          }),
+        ]
+      : []),
   ],
 });
 
