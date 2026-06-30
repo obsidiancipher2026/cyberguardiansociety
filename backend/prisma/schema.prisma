@@ -1,0 +1,299 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  id            Int      @id @default(autoincrement())
+  email         String   @unique
+  username      String   @unique
+  passwordHash  String
+  fullName      String   @default("")
+  role          String   @default("admin")
+  permissions   String   @default("[]")
+  twoFactorSecret String?
+  lastLogin     DateTime?
+  loginAttempts Int      @default(0)
+  lockedUntil   DateTime?
+  ipWhitelist   String   @default("[]")
+  sessions      String   @default("[]")
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  newsArticles  News[]
+  activityLogs  ActivityLog[]
+  securityTokens SecurityToken[]
+}
+
+model News {
+  id            Int      @id @default(autoincrement())
+  title         String
+  slug          String   @unique
+  content       String
+  excerpt       String   @default("")
+  author        String   @default("")
+  image         String   @default("")
+  category      String   @default("")
+  tags          String   @default("[]")
+  severity      String   @default("low")
+  views         Int      @default(0)
+  commentsCount Int      @default(0)
+  featured      Boolean  @default(false)
+  published     Boolean  @default(false)
+  publishedAt   DateTime?
+  createdBy     Int?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  publisher     Admin?   @relation(fields: [createdBy], references: [id])
+
+  @@index([category, published])
+  @@index([severity])
+  @@index([createdAt])
+}
+
+model ThreatIntel {
+  id              Int      @id @default(autoincrement())
+  title           String
+  description     String   @default("")
+  type            String
+  severity        String
+  cvssScore       Float?
+  cveId           String   @default("")
+  affectedSystems String   @default("[]")
+  indicators      String   @default("[]")
+  mitigation      String   @default("")
+  references      String   @default("[]")
+  discoveredDate  DateTime?
+  disclosedDate   DateTime?
+  sources         String   @default("[]")
+  commentsCount   Int      @default(0)
+  views           Int      @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([createdAt])
+  @@index([type, severity])
+}
+
+model Event {
+  id               Int      @id @default(autoincrement())
+  title            String
+  description      String   @default("")
+  image            String   @default("")
+  eventDate        DateTime?
+  endDate          DateTime?
+  location         String   @default("")
+  eventType        String
+  maxAttendees     Int?
+  registeredCount  Int      @default(0)
+  speakers         String   @default("[]")
+  tags             String   @default("[]")
+  agendaItems      String   @default("[]")
+  registrationLink String   @default("")
+  commentsCount    Int      @default(0)
+  views            Int      @default(0)
+  featured         Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([eventType, eventDate])
+  @@index([createdAt])
+}
+
+model Course {
+  id             Int      @id @default(autoincrement())
+  title          String
+  description    String   @default("")
+  image          String   @default("")
+  instructor     String
+  level          String
+  duration       Int
+  category       String   @default("")
+  modules        String   @default("[]")
+  prerequisites  String   @default("[]")
+  price          Float    @default(0)
+  enrolledCount  Int      @default(0)
+  rating         Float    @default(0)
+  tags           String   @default("[]")
+  commentsCount  Int      @default(0)
+  published      Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([level, category])
+  @@index([createdAt])
+}
+
+model Comment {
+  id          Int      @id @default(autoincrement())
+  targetId    Int
+  targetType  String
+  authorName  String   @default("")
+  authorEmail String   @default("")
+  content     String
+  approved    Boolean  @default(false)
+  flagged     Boolean  @default(false)
+  replies     String   @default("[]")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([targetId, targetType])
+  @@index([approved, createdAt])
+}
+
+model ActivityLog {
+  id           Int      @id @default(autoincrement())
+  adminId      Int?
+  action       String
+  resourceType String   @default("")
+  resourceId   String   @default("")
+  changes      String   @default("{}")
+  ipAddress    String   @default("")
+  userAgent    String   @default("")
+  status       String   @default("success")
+  errorMessage  String   @default("")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  actor        Admin?   @relation(fields: [adminId], references: [id])
+
+  @@index([createdAt])
+  @@index([adminId, createdAt])
+  @@index([action, resourceType])
+}
+
+model SecurityToken {
+  id           Int      @id @default(autoincrement())
+  adminId      Int
+  sessionId    String   @unique
+  otp          String
+  otpExpiresAt DateTime
+  ipAddress    String   @default("")
+  userAgent    String   @default("")
+  verified     Boolean  @default(false)
+  verifiedAt   DateTime?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  adminUser    Admin    @relation(fields: [adminId], references: [id])
+
+  @@index([adminId])
+  @@index([sessionId])
+  @@index([expiresAt])
+}
+
+model Opening {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @default("")
+  type        String   @default("Volunteer")
+  tags        String   @default("[]")
+  status      String   @default("open")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([type, status])
+  @@index([createdAt])
+}
+
+model Resource {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @default("")
+  category    String   @default("")
+  link        String   @default("")
+  fileUrl     String   @default("")
+  level       String   @default("beginner")
+  published   Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category, published])
+  @@index([createdAt])
+}
+
+model Testimonial {
+  id        Int      @id @default(autoincrement())
+  name      String
+  role      String   @default("")
+  text      String
+  rating    Int      @default(5)
+  type      String   @default("student")
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([type, published])
+  @@index([createdAt])
+}
+
+model GalleryItem {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @default("")
+  category    String   @default("")
+  imageUrl    String   @default("")
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([category, published])
+  @@index([createdAt])
+}
+
+model ContactSubmission {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String
+  subject   String   @default("")
+  message   String
+  status    String   @default("new")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@index([createdAt])
+}
+
+model AppLog {
+  id        Int      @id @default(autoincrement())
+  level     String   @default("info")
+  message   String
+  source    String   @default("")
+  details   String   @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([level, source])
+  @@index([createdAt])
+}
+
+model CgsContent {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String   @default("")
+  type        String
+  icon        String   @default("")
+  order       Int      @default(0)
+  published   Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([type])
+  @@index([order])
+  @@index([published])
+}
+
+model SiteSettings {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

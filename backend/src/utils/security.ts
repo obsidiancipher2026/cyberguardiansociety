@@ -3,10 +3,8 @@ import jwt from 'jsonwebtoken';
 import config from '../config/environment';
 import { JwtPayload } from '../types';
 
-const SALT_ROUNDS = 12;
-
 export async function hashPassword(password: string): Promise<string> {
-  return bcrypt.hash(password, SALT_ROUNDS);
+  return bcrypt.hash(password, config.bcryptSaltRounds);
 }
 
 export async function comparePassword(

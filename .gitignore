@@ -1,8 +1,11 @@
 node_modules/
 .next/
 backend/dist/
+backend/data/
+backend/.env
 *.db
 *.db-journal
+*.sqlite
 .env
 .env.local
 .DS_Store
