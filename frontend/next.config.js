@@ -41,7 +41,17 @@ const nextConfig = {
       },
     ];
   },
-
+  async rewrites() {
+    const backendUrl = process.env.BACKEND_URL;
+    if (backendUrl) {
+      return [
+        { source: '/api/:path*', destination: `${backendUrl}/api/:path*` },
+      ];
+    }
+    return [
+      { source: '/api/:path*', destination: 'http://localhost:5000/api/:path*' },
+    ];
+  },
 };
 
 module.exports = nextConfig;
