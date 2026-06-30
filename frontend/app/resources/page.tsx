@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Shield, ExternalLink, BookOpen, Loader2 } from 'lucide-react';
+import { ExternalLink, Loader2 } from 'lucide-react';
 import api from '@/utils/api';
 import ClickableText from '@/components/ui/ClickableText';
 import {
@@ -19,12 +19,6 @@ interface Resource {
   level: string;
   url: string;
 }
-
-const levels = [
-  { title: 'Beginner', num: '01', topics: 'Fundamentals, basic tools, terminology', border: 'border-teal-accent', color: 'text-teal-accent' },
-  { title: 'Intermediate', num: '02', topics: 'Network security, web app testing, malware analysis', border: 'border-cyan-core', color: 'text-cyan-core' },
-  { title: 'Advanced', num: '03', topics: 'Exploit development, reverse engineering, red teaming', border: 'border-purple-glow', color: 'text-purple-glow' },
-];
 
 export default function ResourcesPage() {
   const [resources, setResources] = useState<Resource[]>([]);
@@ -121,28 +115,6 @@ export default function ResourcesPage() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <span className="terminal-eyebrow mb-4 inline-block">LEARNING PATHWAYS</span>
-            <h2 className="font-display font-bold text-red-threat" style={{ fontSize: 'clamp(24px, 3vw, 30px)' }}>
-              Learning <span className="text-cyan-core">Pathways</span>
-            </h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {levels.map((level) => (
-              <div key={level.title} className={`cyber-card p-8 text-center relative overflow-hidden`} style={{ borderLeft: `3px solid ${level.color === 'text-teal-accent' ? 'var(--teal-accent)' : level.color === 'text-cyan-core' ? 'var(--cyan-core)' : 'var(--purple-glow)'}` }}>
-                <span className="font-display font-extrabold block mb-2" style={{ fontSize: '48px', color: 'rgba(59,130,246,0.06)' }}>{level.num}</span>
-                <span className={`font-mono text-[11px] ${level.color} tracking-wider uppercase block mb-3`}>{level.title}</span>
-                <ClickableText text={level.topics} className="text-white-muted block" style={{ fontSize: '13px' }} />
-                <div className="mt-5">
-                  <span className="text-cyan-core text-[13px] font-medium cursor-pointer hover:underline">Explore Path →</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
     </div>
   );
 }

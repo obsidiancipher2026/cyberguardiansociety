@@ -29,23 +29,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-abyss">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center mb-8">
-            <span className="terminal-eyebrow mb-4 inline-block">OUR MISSION</span>
-            <h2 className="font-display font-bold text-red-threat mb-3" style={{ fontSize: 'clamp(24px, 3vw, 30px)' }}>
-              Founded in 2024
-            </h2>
-            <p className="text-white-muted leading-relaxed" style={{ fontSize: '15px' }}>
-              CyberGuardiansSociety emerged from a simple but powerful idea:
-              cybersecurity is strongest when we work together. What began as a small group of
-              security professionals sharing threat intelligence has grown into a global community
-              of thousands, united by a common purpose — defending the digital frontier.
-            </p>
-          </div>
-        </div>
-      </section>
-
       <TeamSection />
 
       <section className="py-12 md:py-16">
