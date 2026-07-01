@@ -22,6 +22,37 @@ interface GalleryItem {
   category: string;
 }
 
+const staticPosters: GalleryItem[] = [
+  {
+    id: 'poster-1',
+    title: 'CyberGuardians Collaborators',
+    description: 'Our collaboration poster',
+    imageUrl: '/images/gallery/collaborators.png',
+    category: 'collaboration',
+  },
+  {
+    id: 'poster-2',
+    title: 'Collaboration Spotlight',
+    description: 'Community collaboration initiative',
+    imageUrl: '/images/gallery/collaborators-2.png',
+    category: 'collaboration',
+  },
+  {
+    id: 'poster-3',
+    title: 'Partner Network',
+    description: 'CyberGuardians partner network',
+    imageUrl: '/images/gallery/collaborators-3.png',
+    category: 'collaboration',
+  },
+  {
+    id: 'poster-4',
+    title: 'Community Event',
+    description: 'Cybersecurity community event poster',
+    imageUrl: '/images/gallery/poster-1.jfif',
+    category: 'sessions',
+  },
+];
+
 export default function GalleryPage() {
   const [activeFilter, setActiveFilter] = useState('All');
   const [items, setItems] = useState<GalleryItem[]>([]);
@@ -34,8 +65,18 @@ export default function GalleryPage() {
         const params: any = { limit: 50 };
         if (activeFilter !== 'All') params.category = filterMap[activeFilter];
         const res = await api.get('/gallery', { params });
-        setItems(res.data.data || []);
-      } catch { } finally { setLoading(false); }
+        const apiItems = res.data.data || [];
+        if (activeFilter === 'All') {
+          setItems([...staticPosters, ...apiItems]);
+        } else {
+          setItems([
+            ...staticPosters.filter(p => p.category === filterMap[activeFilter]),
+            ...apiItems,
+          ]);
+        }
+      } catch {
+        setItems(activeFilter === 'All' ? staticPosters : staticPosters.filter(p => p.category === filterMap[activeFilter]));
+      } finally { setLoading(false); }
     };
     fetchGallery();
   }, [activeFilter]);
