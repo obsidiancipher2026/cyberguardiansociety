@@ -34,21 +34,21 @@ export default function Footer() {
   return (
     <footer className="relative bg-abyss overflow-hidden">
       {/* Top cyan glow border */}
-      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-cyan-core/30 to-transparent" />
-      <div className="absolute top-0 left-0 w-[200px] h-px bg-cyan-core/50 blur-sm" />
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-electric/30 to-transparent" />
+      <div className="absolute top-0 left-0 w-[200px] h-px bg-electric/50 blur-sm" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8">
           {/* Column 1 - Logo & Social */}
           <div className="space-y-5">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-core/30 to-purple-glow/30 flex items-center justify-center border border-cyan-core/30 overflow-hidden backdrop-blur-sm">
+              <div className="w-8 h-8 rounded-lg bg-electric/20 flex items-center justify-center border border-electric/30 overflow-hidden backdrop-blur-sm">
                 <Image src="/logo.png" alt="CyberGuardiansSociety" width={32} height={32} className="object-contain" />
               </div>
               <span className="font-display font-bold text-sm tracking-tight">
                 <span className="text-white-primary">Cyber</span>
-                <span className="text-red-threat">Guardians</span>
-                <span className="text-cyan-core">Society</span>
+                <span className="text-red">Guardians</span>
+                <span className="text-electric">Society</span>
               </span>
             </Link>
             <p className="text-[13px] text-white-muted leading-relaxed max-w-xs">
@@ -61,7 +61,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center w-9 h-9 rounded-lg border border-border text-white-ghost hover:text-cyan-core hover:border-cyan-core/40 transition-all duration-200"
+                   className="flex items-center justify-center w-9 h-9 rounded-lg border border-border text-white-ghost hover:text-electric hover:border-electric/40 transition-all duration-200"
                   aria-label={social.label}
                 >
                   <social.icon className="w-4 h-4" />
@@ -72,13 +72,13 @@ export default function Footer() {
 
           {/* Column 2 - Quick Links */}
           <div>
-            <h3 className="font-display font-semibold text-sm text-red-threat mb-5">Quick Links</h3>
+            <h3 className="font-display font-semibold text-sm text-red mb-5">Quick Links</h3>
             <ul className="space-y-3">
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <Link
                     href={link.href}
-                    className="text-[13px] text-white-muted hover:text-cyan-core transition-colors duration-200"
+                    className="text-[13px] text-white-muted hover:text-electric transition-colors duration-200"
                   >
                     {link.label}
                   </Link>
@@ -89,14 +89,14 @@ export default function Footer() {
 
           {/* Column 3 - Our Programs */}
           <div>
-            <h3 className="font-display font-semibold text-sm text-red-threat mb-5">Our Programs</h3>
+            <h3 className="font-display font-semibold text-sm text-red mb-5">Our Programs</h3>
             <ul className="space-y-3">
               {programs.map((prog) => (
                 <li key={prog.label} className="flex items-center gap-2">
-                  <span className="w-1 h-1 rounded-full bg-cyan-dim shrink-0" />
+                  <span className="w-1 h-1 rounded-full bg-electric-dim shrink-0" />
                   <Link
                     href={prog.href}
-                    className="text-[13px] text-white-muted hover:text-cyan-core transition-colors duration-200"
+                    className="text-[13px] text-white-muted hover:text-electric transition-colors duration-200"
                   >
                     {prog.label}
                   </Link>
@@ -107,16 +107,16 @@ export default function Footer() {
 
           {/* Column 4 - Connect */}
           <div className="space-y-5">
-            <h3 className="font-display font-semibold text-sm text-red-threat mb-5">Connect With Us</h3>
+            <h3 className="font-display font-semibold text-sm text-red mb-5">Connect With Us</h3>
             <div className="flex items-center gap-2 text-[13px] text-white-muted">
-              <Mail className="w-3.5 h-3.5 text-cyan-core" />
-              <a href="mailto:cyberguardianssociety@gmail.com" className="hover:text-cyan-core transition-colors">
+              <Mail className="w-3.5 h-3.5 text-electric" />
+              <a href="mailto:cyberguardianssociety@gmail.com" className="hover:text-electric transition-colors">
                 cyberguardianssociety@gmail.com
               </a>
             </div>
             <div className="space-y-3 pt-2">
               <Link href="/career">
-                <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-cyan-core text-void text-[13px] font-semibold hover:brightness-110 transition-all duration-200 hover:-translate-y-0.5">
+                <div className="flex items-center gap-2 px-4 py-3 rounded-lg bg-electric text-void text-[13px] font-semibold hover:brightness-110 transition-all duration-200 hover:-translate-y-0.5">
                   <HeartHandshake className="w-4 h-4" />
                   Volunteer With Us
                   <ArrowRight className="w-3.5 h-3.5 ml-auto" />

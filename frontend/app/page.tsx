@@ -1,19 +1,25 @@
 import HeroSection from '@/components/home/HeroSection';
-import FeaturesSection from '@/components/home/FeaturesSection';
+import AboutSection from '@/components/home/AboutSection';
 import StatsSection from '@/components/home/StatsSection';
-import TrainingSection from '@/components/home/TrainingSection';
-import JoinSection from '@/components/home/JoinSection';
-import CTASection from '@/components/home/CTASection';
+import EventsSection from '@/components/home/EventsSection';
+import CTFSection from '@/components/home/CTFSection';
+import ResourcesSection from '@/components/home/ResourcesSection';
+import VolunteerSection from '@/components/home/VolunteerSection';
+import SponsorsSection from '@/components/home/SponsorsSection';
+import TestimonialsSection from '@/components/home/TestimonialsSection';
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <FeaturesSection />
-      <TrainingSection />
+      <AboutSection />
       <StatsSection />
-      <JoinSection />
-      <CTASection />
+      <EventsSection />
+      <CTFSection />
+      <ResourcesSection />
+      <VolunteerSection />
+      <SponsorsSection />
+      <TestimonialsSection />
     </>
   );
 }

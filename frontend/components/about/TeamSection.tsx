@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { team, type TeamMember, type Tier } from '@/data/team';
 import '@/styles/team.css';
 
@@ -39,21 +38,11 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
       <div className="team-card-content">
         <div className={`team-card-photo ${tier}`}>
           <div className={`team-card-photo-ring ${tier}`} aria-hidden="true" />
-          {member.photo ? (
-            <Image
-              src={member.photo}
-              alt={`${member.name} — ${member.title}`}
-              width={tier === 'leadership' ? 140 : tier === 'core' ? 110 : 96}
-              height={tier === 'leadership' ? 140 : tier === 'core' ? 110 : 96}
-              loading={index < 3 ? 'eager' : 'lazy'}
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center bg-[#0A0A0F]">
-              <span style={{ fontSize: tier === 'leadership' ? 32 : 24, fontWeight: 700, color: 'rgba(255,255,255,0.1)' }}>
-                {initials}
-              </span>
-            </div>
-          )}
+          <div className="w-full h-full flex items-center justify-center bg-[#0A0A0F]">
+            <span style={{ fontSize: tier === 'leadership' ? 32 : 24, fontWeight: 700, color: 'rgba(255,255,255,0.1)' }}>
+              {initials}
+            </span>
+          </div>
         </div>
 
         <div className={`team-role-badge ${tier}`}>

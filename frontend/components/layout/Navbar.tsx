@@ -43,13 +43,13 @@ export default function Navbar() {
           <div className="flex items-center justify-between h-16">
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-cyan-core/30 to-purple-glow/30 flex items-center justify-center border border-cyan-core/30 overflow-hidden backdrop-blur-sm">
+              <div className="w-8 h-8 rounded-lg bg-electric/20 flex items-center justify-center border border-electric/30 overflow-hidden backdrop-blur-sm">
                 <Image src="/logo.png" alt="CyberGuardiansSociety" width={32} height={32} className="object-contain" />
               </div>
               <span className="font-display font-bold text-base tracking-tight">
                 <span className="text-white-primary">Cyber</span>
-                <span className="text-red-threat">Guardians</span>
-                <span className="text-cyan-core">Society</span>
+                <span className="text-red">Guardians</span>
+                <span className="text-electric">Society</span>
               </span>
             </Link>
 
@@ -68,9 +68,9 @@ export default function Navbar() {
                     }`}
                   >
                     {link.label}
-                    {isActive && (
-                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-cyan-core rounded-full" />
-                    )}
+                      {isActive && (
+                          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-electric rounded-full" />
+                        )}
                   </Link>
                 );
               })}
@@ -86,7 +86,7 @@ export default function Navbar() {
                         href={social.href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="p-2 rounded-lg text-white-muted hover:text-cyan-core hover:bg-surface-raised transition-colors"
+                        className="p-2 rounded-lg text-white-muted hover:text-electric hover:bg-surface-raised transition-colors"
                         aria-label={social.label}
                       >
                         <social.icon className="w-4 h-4" />
@@ -100,7 +100,7 @@ export default function Navbar() {
                 <TooltipTrigger asChild>
                   <Link
                     href="/career"
-                    className="hidden lg:inline-flex items-center gap-1.5 px-5 py-2 rounded-md border border-cyan-core text-cyan-core text-[13px] font-medium hover:bg-cyan-core hover:text-void transition-all duration-200"
+                    className="hidden lg:inline-flex items-center gap-1.5 px-5 py-2 rounded-md border border-electric text-electric text-[13px] font-medium hover:bg-electric hover:text-void transition-all duration-200"
                     style={{
                       animation: 'glow-pulse 4s ease-in-out infinite',
                     }}

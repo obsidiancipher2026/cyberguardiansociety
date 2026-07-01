@@ -1,129 +1,92 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { ArrowRight, ExternalLink, ChevronRight } from 'lucide-react';
-import Image from 'next/image';
+import { useEffect, useRef } from 'react';
+import { ArrowRight, Shield } from 'lucide-react';
 import Link from 'next/link';
-import { siteInfo, socialLinks } from '@/utils/constants';
+import { siteInfo } from '@/utils/constants';
 
 export default function HeroSection() {
-  const [mounted, setMounted] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    setMounted(true);
+    const el = ref.current;
+    if (!el) return;
+    const onMove = (e: MouseEvent) => {
+      const x = (e.clientX / window.innerWidth - 0.5) * 20;
+      const y = (e.clientY / window.innerHeight - 0.5) * 20;
+      el.style.setProperty('--x', `${x}px`);
+      el.style.setProperty('--y', `${y}px`);
+    };
+    window.addEventListener('mousemove', onMove);
+    return () => window.removeEventListener('mousemove', onMove);
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background: dark base with animated gradient orbs */}
-      <div className="absolute inset-0 bg-void" />
-      <div className="absolute inset-0 bg-gradient-to-br from-void via-abyss to-void" />
-
-      {/* Animated gradient orbs */}
-      <div className="absolute top-[-20%] left-[-10%] w-[600px] h-[600px] rounded-full bg-cyan-core/5 blur-[120px] animate-pulse" style={{ animationDuration: '8s' }} />
-      <div className="absolute bottom-[-20%] right-[-10%] w-[500px] h-[500px] rounded-full bg-red-threat/5 blur-[100px] animate-pulse" style={{ animationDuration: '6s' }} />
-      <div className="absolute top-[40%] right-[20%] w-[300px] h-[300px] rounded-full bg-purple-glow/5 blur-[80px] animate-pulse" style={{ animationDuration: '10s' }} />
-
-      {/* Scan line overlay */}
-      <div className="absolute inset-0 bg-[repeating-linear-gradient(0deg,transparent,transparent_2px,rgba(0,0,0,0.03)_2px,rgba(0,0,0,0.03)_4px)] pointer-events-none" />
-
-      {/* Grid pattern */}
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-void">
       <div
-        className="absolute inset-0 opacity-[0.03] pointer-events-none"
+        ref={ref}
+        className="absolute inset-0 transition-transform duration-500 ease-out"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(59,130,246,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.1) 1px, transparent 1px)',
-          backgroundSize: '60px 60px',
+          transform: 'translate(var(--x, 0px), var(--y, 0px))',
         }}
-      />
+      >
+        <div className="absolute top-[-15%] left-[-8%] w-[700px] h-[700px] rounded-full bg-electric/5 blur-[140px]" />
+        <div className="absolute bottom-[-15%] right-[-8%] w-[600px] h-[600px] rounded-full bg-red/5 blur-[120px]" />
+        <div className="absolute top-[30%] right-[15%] w-[400px] h-[400px] rounded-full bg-cyan/5 blur-[100px]" />
+      </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
         <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-          {/* Left: Text Content */}
           <div className="flex-1 text-center lg:text-left">
-            {/* Terminal badge */}
-            <div
-              className={`inline-flex items-center gap-2 px-3 py-1 rounded-md border border-cyan-core/20 bg-cyan-ghost/50 backdrop-blur-sm mb-6 transition-all duration-700 ${
-                mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[10px] font-mono text-cyan-core tracking-[0.2em] uppercase">
-                {siteInfo.tagline}
-              </span>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full glass mb-8">
+              <Shield className="w-3.5 h-3.5 text-electric" />
+              <span className="text-xs font-medium text-electric">{siteInfo.tagline}</span>
             </div>
 
-            {/* Main headline */}
-            <h1
-              className={`font-display font-extrabold leading-[1.05] mb-6 transition-all duration-700 delay-100 ${
-                mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-              style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}
-            >
-              <span className="text-white-primary">Where </span>
-              <span className="text-red-threat">Cyber</span>
-              <span className="text-white-primary"> Defense</span>
-              <br />
-              <span className="text-white-primary">Meets </span>
-              <span className="text-cyan-core">Community</span>
+            <h1 className="font-display font-extrabold leading-[1.05] mb-6 text-white-primary" style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}>
+              Securing the{' '}
+              <span className="text-electric">Digital</span>{' '}
+              Frontier,{' '}
+              <br className="hidden sm:block" />
+              Together as{' '}
+              <span className="text-red">One</span>
             </h1>
 
-            {/* Description */}
-            <p
-              className={`text-white-muted max-w-lg mx-auto lg:mx-0 leading-relaxed mb-8 transition-all duration-700 delay-200 ${
-                mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-              style={{ fontSize: 'clamp(14px, 1.5vw, 17px)' }}
-            >
-              A global network of cybersecurity enthusiasts, professionals, and learners collaborating to secure the digital frontier through shared knowledge and collective defense.
+            <p className="text-text-muted max-w-lg mx-auto lg:mx-0 leading-relaxed mb-10 text-[16px]">
+              A global community of cybersecurity professionals, enthusiasts, and learners collaborating to build a safer digital world through shared knowledge and collective defense.
             </p>
 
-            {/* CTA Buttons */}
-            <div
-              className={`flex flex-col sm:flex-row items-center gap-3 mb-10 transition-all duration-700 delay-300 ${
-                mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
-              }`}
-            >
+            <div className="flex flex-col sm:flex-row items-center gap-3">
               <Link
                 href="/career"
-                className="group relative inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-gradient-to-r from-red-threat to-red-threat/80 text-white-primary text-sm font-semibold overflow-hidden transition-all duration-300 hover:shadow-[0_0_24px_rgba(239,68,68,0.3)] hover:-translate-y-0.5"
+                className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-electric text-white text-sm font-semibold shadow-btn hover:brightness-110 hover:-translate-y-0.5 transition-all duration-200"
               >
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
-                <span className="relative">Join the Movement</span>
-                <ArrowRight className="relative w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                Join the Movement
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
                 href="/what-cgs-do"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-white-muted text-sm font-medium hover:border-cyan-core/50 hover:text-cyan-core transition-all duration-300"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-border text-text-muted text-sm font-medium hover:border-electric/50 hover:text-electric transition-all duration-200"
               >
                 Explore Programs
-                <ChevronRight className="w-4 h-4" />
               </Link>
             </div>
-
-
           </div>
 
-          {/* Right: Logo */}
-          <div
-            className={`flex-1 flex items-center justify-center -mt-12 transition-all duration-700 delay-200 ${
-              mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
-            }`}
-          >
-            <Image
-              src="/logo.png"
-              alt={siteInfo.name}
-              width={200}
-              height={200}
-              className="object-contain drop-shadow-[0_0_60px_rgba(59,130,246,0.15)]"
-              priority
-            />
+          <div className="flex-1 flex items-center justify-center">
+            <div className="relative w-72 h-72 lg:w-80 lg:h-80">
+              <div className="absolute inset-0 rounded-full glass animate-glow-pulse" />
+              <div className="absolute inset-4 rounded-full glass flex items-center justify-center">
+                <div className="w-24 h-24 rounded-2xl bg-electric/20 border border-electric/30 flex items-center justify-center">
+                  <Shield className="w-12 h-12 text-electric" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-abyss to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-void to-transparent pointer-events-none" />
     </section>
   );
 }

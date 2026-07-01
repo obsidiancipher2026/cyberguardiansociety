@@ -9,7 +9,6 @@ export interface TeamMember {
   bio: string;
   skills: string[];
   socials: Record<string, string>;
-  photo: string;
 }
 
 export const team: TeamMember[] = [
@@ -26,7 +25,6 @@ export const team: TeamMember[] = [
       github: 'https://github.com/OperationZero-GHH',
       instagram: 'https://www.instagram.com/shayanahmed806/',
     },
-    photo: '/images/team/shayan-ahmed.jpeg',
   },
   {
     name: 'Muhammad Saad',
@@ -37,7 +35,6 @@ export const team: TeamMember[] = [
     bio: 'Supports organizational leadership by coordinating teams, managing day-to-day operations, and ensuring successful execution of projects and community objectives.',
     skills: ['Operations Management', 'Team Coordination', 'Strategic Planning'],
     socials: {},
-    photo: '/images/team/muhammad-saad.jpeg',
   },
   {
     name: 'Muhammad Taha',
@@ -48,7 +45,6 @@ export const team: TeamMember[] = [
     bio: 'Leads cybersecurity initiatives, develops CTF challenges, conducts security assessments, and ensures technical infrastructure reliability.',
     skills: ['Web Development', 'Network Security', 'CTF Design', 'Penetration Testing'],
     socials: {},
-    photo: '/images/team/muhammad-taha.jpeg',
   },
   {
     name: 'Esha Javed',
@@ -59,7 +55,6 @@ export const team: TeamMember[] = [
     bio: 'Creates impactful visual content, maintains brand consistency, and develops professional designs for events, campaigns, and community identity.',
     skills: ['Graphic Design', 'Brand Identity', 'UI/UX Design', 'Visual Storytelling'],
     socials: {},
-    photo: '/images/team/esha-javed.jpeg',
   },
   {
     name: 'Jannat Fatima',
@@ -72,7 +67,6 @@ export const team: TeamMember[] = [
     socials: {
       linkedin: 'https://www.linkedin.com/in/jannat-rajput-2367a038b',
     },
-    photo: '/images/team/jannat-fatima.jpg',
   },
   {
     name: 'Muhammad Asad',
@@ -87,7 +81,6 @@ export const team: TeamMember[] = [
       github: 'https://github.com/azumalik1122-ctrl',
       instagram: 'https://www.instagram.com/asadziaa__',
     },
-    photo: '/images/team/muhammad-asad.jpeg',
   },
   {
     name: 'Bisma Soomro',
@@ -100,7 +93,6 @@ export const team: TeamMember[] = [
     socials: {
       linkedin: 'https://www.linkedin.com/in/bisma-soomro-4637773b6',
     },
-    photo: '/images/team/bisma-soomro.jpeg',
   },
   {
     name: 'Wania Fatima',
@@ -113,6 +105,5 @@ export const team: TeamMember[] = [
     socials: {
       linkedin: 'https://www.linkedin.com/in/wania-fatima/',
     },
-    photo: '/images/team/wania-fatima.jpeg',
   },
 ];

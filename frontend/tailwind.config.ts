@@ -9,36 +9,37 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void: "#020408",
-        abyss: "#060D14",
+        void: "#07111F",
+        abyss: "#101827",
         surface: {
-          DEFAULT: "#0C1825",
-          raised: "#0F2033",
-          tertiary: "#111D30",
+          DEFAULT: "#182233",
+          raised: "#1E2D45",
         },
         border: {
-          DEFAULT: "#1A3050",
-          glow: "#2563EB",
+          DEFAULT: "#2A3F5A",
+          light: "#3B5A7A",
         },
-        cyan: {
-          core: "#3B82F6",
-          dim: "#1D4ED8",
+        electric: {
+          DEFAULT: "#3B82F6",
+          dim: "#2563EB",
           ghost: "rgba(59, 130, 246, 0.10)",
         },
-        teal: {
-          accent: "#EF4444",
+        cyan: {
+          DEFAULT: "#22D3EE",
+          dim: "#06B6D4",
+          ghost: "rgba(34, 211, 238, 0.10)",
         },
-        purple: {
-          deep: "#6B21A8",
-          glow: "#A855F7",
-        },
-        threat: "#EF4444",
         red: {
-          threat: "#EF4444",
+          DEFAULT: "#EF4444",
+          dim: "#DC2626",
+          ghost: "rgba(239, 68, 68, 0.10)",
         },
+        "text-primary": "#F0F8FF",
+        "text-muted": "#94A3B8",
+        "text-ghost": "#475569",
         "white-primary": "#F0F8FF",
-        "white-muted": "#8BA9C4",
-        "white-ghost": "#3A5A78",
+        "white-muted": "#94A3B8",
+        "white-ghost": "#475569",
       },
       fontFamily: {
         display: ["Space Grotesk", "system-ui", "sans-serif"],
@@ -51,9 +52,7 @@ const config: Config = {
         scaleIn: "scaleIn 0.3s ease-out",
         float: "float 4s ease-in-out infinite",
         "glow-pulse": "glow-pulse 4s ease-in-out infinite",
-        blink: "blink 1s step-end infinite",
         shimmer: "shimmer 2s infinite",
-        "scanline-sweep": "scanline-sweep 0.3s ease-out",
       },
       keyframes: {
         fadeIn: {
@@ -76,28 +75,20 @@ const config: Config = {
           "0%, 100%": { boxShadow: "0 0 20px rgba(59,130,246,0.1)" },
           "50%": { boxShadow: "0 0 40px rgba(59,130,246,0.2)" },
         },
-        blink: {
-          "0%, 100%": { opacity: "1" },
-          "50%": { opacity: "0" },
-        },
         shimmer: {
           "0%": { backgroundPosition: "-200% 0" },
           "100%": { backgroundPosition: "200% 0" },
         },
-        "scanline-sweep": {
-          "0%": { transform: "translateY(-100%)" },
-          "100%": { transform: "translateY(100%)" },
-        },
       },
       backgroundImage: {
-        "hero-mesh": "radial-gradient(ellipse at 20% 20%, rgba(59,130,246,0.12) 0%, transparent 50%), radial-gradient(ellipse at 80% 80%, rgba(239,68,68,0.12) 0%, transparent 50%)",
-        "gradient-cyan": "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
+        "gradient-blue": "linear-gradient(135deg, #3B82F6 0%, #2563EB 100%)",
         "gradient-mix": "linear-gradient(135deg, #3B82F6 0%, #EF4444 100%)",
       },
       boxShadow: {
-        "card": "0 0 0 1px rgba(26,48,80,1), 0 0 40px -10px rgba(59,130,246,0.10)",
-        "card-hover": "0 20px 60px rgba(59,130,246,0.08)",
-        "glow-cyan": "0 0 40px -10px rgba(59,130,246,0.15)",
+        "glass": "0 8px 32px rgba(0, 0, 0, 0.3)",
+        "card": "0 0 0 1px rgba(42,63,90,1), 0 8px 32px -8px rgba(0,0,0,0.3)",
+        "card-hover": "0 0 0 1px rgba(59,130,246,1), 0 12px 48px -12px rgba(59,130,246,0.15)",
+        "glow-blue": "0 0 40px -10px rgba(59,130,246,0.15)",
         "glow-red": "0 0 16px rgba(239,68,68,0.35)",
       },
     },
