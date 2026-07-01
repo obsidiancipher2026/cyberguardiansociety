@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { Menu, Linkedin, Instagram, MessageCircle } from 'lucide-react';
 import MobileMenu from '@/components/layout/MobileMenu';
 import { navLinks, socialLinks } from '@/utils/constants';
-import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@/components/animate-ui/primitives/animate/tooltip';
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -15,7 +14,7 @@ export default function Navbar() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
+    const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -31,7 +30,7 @@ export default function Navbar() {
   ];
 
   return (
-    <TooltipProvider>
+    <>
       <header
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           scrolled
@@ -39,89 +38,77 @@ export default function Navbar() {
             : 'glass-nav'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-24">
+          <div className="flex items-center justify-between h-[72px]">
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="w-8 h-8 rounded-lg bg-electric/20 flex items-center justify-center border border-electric/30 overflow-hidden backdrop-blur-sm">
-                <Image src="/logo.png" alt="CyberGuardiansSociety" width={32} height={32} className="object-contain" />
+            <Link href="/" className="flex items-center gap-3 group shrink-0">
+              <div className="w-9 h-9 rounded-lg flex items-center justify-center border border-white/[0.08] overflow-hidden bg-surface/50">
+                <Image src="/logo.png" alt="CGS" width={36} height={36} className="object-contain" />
               </div>
-              <span className="font-display font-bold text-base tracking-tight">
-                <span className="text-white-primary">Cyber</span>
-                <span className="text-red">Guardians</span>
-                <span className="text-electric">Society</span>
+              <span className="font-display font-bold text-[15px] tracking-tight hidden sm:block">
+                <span className="text-text-primary">Cyber</span>
+                <span className="text-aurora-violet">Guardians</span>
+                <span className="text-text-secondary">Society</span>
               </span>
             </Link>
 
-            {/* Desktop Nav */}
-            <nav className="hidden lg:flex items-center gap-1">
+            {/* Desktop Nav — left-weighted, not edge-to-edge */}
+            <nav className="hidden lg:flex items-center gap-1 ml-12">
               {navLinks.map((link) => {
                 const isActive = pathname === link.href;
                 return (
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative px-3 py-2 text-[13px] font-medium transition-colors duration-200 ${
+                    className={`relative px-3.5 py-2 text-[13px] font-medium transition-colors duration-200 ${
                       isActive
-                        ? 'text-white-primary'
-                        : 'text-white-muted hover:text-white-primary'
+                        ? 'text-text-primary'
+                        : 'text-text-secondary hover:text-text-primary'
                     }`}
                   >
                     {link.label}
-                      {isActive && (
-                          <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-0.5 bg-electric rounded-full" />
-                        )}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-5 h-[2px] rounded-full bg-gradient-aurora" />
+                    )}
                   </Link>
                 );
               })}
             </nav>
 
             {/* Right Side */}
-            <div className="flex items-center gap-3">
-              <div className="hidden lg:flex items-center gap-2">
+            <div className="flex items-center gap-2">
+              {/* Social Icons — hidden on mobile */}
+              <div className="hidden lg:flex items-center gap-1">
                 {socialIcons.map((social) => (
-                  <Tooltip key={social.label}>
-                    <TooltipTrigger asChild>
-                      <Link
-                        href={social.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="p-2 rounded-lg text-white-muted hover:text-electric hover:bg-surface-raised transition-colors"
-                        aria-label={social.label}
-                      >
-                        <social.icon className="w-4 h-4" />
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent>{social.label}</TooltipContent>
-                  </Tooltip>
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2.5 rounded-lg text-text-muted hover:text-aurora-cyan hover:bg-white/[0.04] transition-all duration-200"
+                    aria-label={social.label}
+                  >
+                    <social.icon className="w-4 h-4" />
+                  </a>
                 ))}
               </div>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link
-                    href="/career"
-                    className="hidden lg:inline-flex items-center gap-1.5 px-5 py-2 rounded-md border border-electric text-electric text-[13px] font-medium hover:bg-electric hover:text-void transition-all duration-200"
-                    style={{
-                      animation: 'glow-pulse 4s ease-in-out infinite',
-                    }}
-                  >
-                    Join CGS
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>Apply Now</TooltipContent>
-              </Tooltip>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <button
-                    onClick={() => setMobileOpen(true)}
-                    className="lg:hidden p-2 rounded-lg hover:bg-surface-raised transition-colors"
-                    aria-label="Open menu"
-                  >
-                    <Menu className="w-5 h-5 text-white-primary" />
-                  </button>
-                </TooltipTrigger>
-                <TooltipContent>Menu</TooltipContent>
-              </Tooltip>
+
+              {/* Join CGS — gradient border button */}
+              <Link
+                href="/career"
+                className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold text-text-primary rounded-lg border border-white/[0.08] hover:border-aurora-violet/40 hover:bg-aurora-violet/[0.06] transition-all duration-200"
+              >
+                Join CGS
+              </Link>
+
+              {/* Mobile hamburger */}
+              <button
+                onClick={() => setMobileOpen(true)}
+                className="lg:hidden p-2.5 rounded-lg hover:bg-white/[0.04] transition-colors"
+                aria-label="Open menu"
+              >
+                <Menu className="w-5 h-5 text-text-primary" />
+              </button>
             </div>
           </div>
         </div>
@@ -130,6 +117,6 @@ export default function Navbar() {
       {mobileOpen && (
         <MobileMenu isOpen={mobileOpen} onClose={() => setMobileOpen(false)} />
       )}
-    </TooltipProvider>
+    </>
   );
 }

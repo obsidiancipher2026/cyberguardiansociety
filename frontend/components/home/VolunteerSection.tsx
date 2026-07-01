@@ -1,55 +1,118 @@
 'use client';
 
-import { HeartHandshake, Code, PenTool, Globe, MessageCircle, Shield, ArrowRight } from 'lucide-react';
+import { useState } from 'react';
+import { Code, PenTool, Globe, MessageCircle, Shield, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
+import RevealOnScroll from '@/components/ui/RevealOnScroll';
 
 const roles = [
-  { icon: Code, title: 'Developer', description: 'Build and maintain our platforms, tools, and CTF challenges.' },
-  { icon: PenTool, title: 'Content Creator', description: 'Write guides, create video tutorials, and develop training materials.' },
-  { icon: Globe, title: 'Community Manager', description: 'Help grow and moderate our community across all platforms.' },
-  { icon: MessageCircle, title: 'Mentor', description: 'Guide newcomers and share your expertise through structured programs.' },
-  { icon: Shield, title: 'Security Researcher', description: 'Contribute to threat intelligence and vulnerability research.' },
+  {
+    icon: Code,
+    title: 'Developer',
+    description: 'Build and maintain our platforms, tools, and CTF challenges. Work with modern frameworks and contribute to open-source security tooling.',
+    skills: ['React', 'Node.js', 'Python', 'DevOps'],
+  },
+  {
+    icon: PenTool,
+    title: 'Content Creator',
+    description: 'Write guides, create video tutorials, and develop training materials that help thousands learn cybersecurity.',
+    skills: ['Writing', 'Video Production', 'Technical Analysis'],
+  },
+  {
+    icon: Globe,
+    title: 'Community Manager',
+    description: 'Help grow and moderate our community across Discord, LinkedIn, and other platforms.',
+    skills: ['Communication', 'Social Media', 'Event Planning'],
+  },
+  {
+    icon: MessageCircle,
+    title: 'Mentor',
+    description: 'Guide newcomers and share your expertise through structured mentorship programs.',
+    skills: ['Teaching', 'Cybersecurity', 'Patience'],
+  },
+  {
+    icon: Shield,
+    title: 'Security Researcher',
+    description: 'Contribute to threat intelligence and vulnerability research that protects our community.',
+    skills: ['OSINT', 'Malware Analysis', 'CTF'],
+  },
 ];
 
 export default function VolunteerSection() {
+  const [active, setActive] = useState(0);
+
   return (
-    <section className="relative py-24 md:py-32 overflow-hidden bg-void">
-      <div className="absolute inset-0 bg-gradient-to-b from-abyss/30 via-transparent to-abyss/30" />
+    <section className="relative py-[140px] overflow-hidden bg-base">
+      <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-24">
+        <RevealOnScroll>
+          <div className="mb-12">
+            <div className="section-label">Volunteer Opportunities</div>
+            <h2 className="section-title">Contribute to the <span className="gradient-text">Mission</span></h2>
+            <p className="section-subtitle">
+              Whether you are a seasoned professional or just starting out, there is a place for you at CGS.
+            </p>
+          </div>
+        </RevealOnScroll>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <div className="section-label justify-center">Volunteer Opportunities</div>
-          <h2 className="section-title">Contribute to the Mission</h2>
-          <p className="section-subtitle mx-auto">
-            Whether you are a seasoned professional or just starting out, there is a place for you at CGS. Your skills can make a difference.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
-          {roles.map((role) => {
-            const Icon = role.icon;
-            return (
-              <div key={role.title} className="glass-card p-6 text-center group">
-                <div className="w-11 h-11 rounded-xl bg-cyan/10 border border-cyan/20 flex items-center justify-center mx-auto mb-4 group-hover:bg-cyan/20 transition-colors">
-                  <Icon className="w-5 h-5 text-cyan" />
-                </div>
-                <h3 className="font-display font-semibold text-white-primary text-base mb-2">{role.title}</h3>
-                <p className="text-text-muted text-sm leading-relaxed">{role.description}</p>
+        <RevealOnScroll delay={100}>
+          <div className="flex flex-col lg:flex-row gap-8">
+            {/* Left — tab triggers */}
+            <div className="lg:w-[320px] shrink-0">
+              <div className="space-y-1">
+                {roles.map((role, i) => {
+                  const Icon = role.icon;
+                  return (
+                    <button
+                      key={role.title}
+                      onClick={() => setActive(i)}
+                      className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg text-left transition-all duration-200 ${
+                        active === i
+                          ? 'bg-aurora-violet/[0.08] border border-aurora-violet/20 text-text-primary'
+                          : 'border border-transparent text-text-secondary hover:text-text-primary hover:bg-white/[0.02]'
+                      }`}
+                    >
+                      <Icon className={`w-5 h-5 shrink-0 ${active === i ? 'text-aurora-violet' : 'text-text-muted'}`} />
+                      <span className="font-medium text-sm">{role.title}</span>
+                    </button>
+                  );
+                })}
               </div>
-            );
-          })}
-        </div>
+            </div>
 
-        <div className="text-center mt-10">
-          <Link
-            href="/career"
-            className="group inline-flex items-center gap-2 px-6 py-3 rounded-lg bg-electric text-white text-sm font-semibold shadow-btn hover:brightness-110 hover:-translate-y-0.5 transition-all duration-200"
-          >
-            <HeartHandshake className="w-4 h-4" />
-            Apply to Volunteer
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </Link>
-        </div>
+            {/* Right — active role detail */}
+            <div className="flex-1 glass-card p-8">
+              <div className="flex items-center gap-3 mb-4">
+                {(() => {
+                  const Icon = roles[active].icon;
+                  return <Icon className="w-6 h-6 text-aurora-violet" />;
+                })()}
+                <h3 className="font-display font-semibold text-text-primary text-xl">
+                  {roles[active].title}
+                </h3>
+              </div>
+              <p className="text-text-secondary leading-relaxed mb-6">
+                {roles[active].description}
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {roles[active].skills.map((skill) => (
+                  <span
+                    key={skill}
+                    className="px-3 py-1 rounded-full text-xs font-medium border border-white/[0.08] bg-white/[0.02] text-text-secondary"
+                  >
+                    {skill}
+                  </span>
+                ))}
+              </div>
+              <Link
+                href="/career"
+                className="inline-flex items-center gap-2 text-sm font-medium text-aurora-cyan hover:text-aurora-violet transition-colors"
+              >
+                Apply for This Role
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+        </RevealOnScroll>
       </div>
     </section>
   );
