@@ -174,23 +174,25 @@ export default function CareerPage() {
                 description="No active volunteer roles at the moment. Drop your email and we will notify you the moment new positions open."
                 action={
                   !submitted ? (
-                    <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-2 mt-2 max-w-md mx-auto">
-                      <input
-                        type="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="you@example.com"
-                        required
-                        className="flex-1 px-3 py-2 bg-elevated border border-white/[0.08] rounded-lg text-text-primary text-sm placeholder:text-text-muted focus:border-aurora-violet focus:outline-none focus:ring-1 focus:ring-aurora-violet/20 transition-all"
-                      />
-                      <button
-                        type="submit"
-                        className="inline-flex items-center justify-center gap-1 px-2.5 py-1 bg-aurora-violet text-white text-[11px] font-semibold rounded-md hover:bg-aurora-violet/90 transition-colors shrink-0"
-                      >
-                        <Send className="w-2.5 h-2.5" />
-                        Notify Me
-                      </button>
-                    </form>
+                    <div className="w-full max-w-[560px] mx-auto mt-2">
+                      <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row items-stretch gap-4 sm:gap-2">
+                        <input
+                          type="email"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
+                          placeholder="you@example.com"
+                          required
+                          className="flex-1 w-full sm:w-[340px] h-[54px] px-5 bg-[#0E1320] border border-white/[0.08] rounded-[14px] text-text-primary text-[16px] font-semibold placeholder:text-text-muted/50 focus:border-[#4F46E5]/60 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/15 transition-all duration-200"
+                        />
+                        <button
+                          type="submit"
+                          className="h-[54px] w-full sm:w-[160px] bg-gradient-to-r from-[#4F46E5] to-[#7C3AED] text-white text-[16px] font-semibold rounded-[14px] hover:brightness-110 hover:scale-[1.02] hover:shadow-[0_12px_40px_rgba(99,102,241,.25)] active:scale-[0.98] transition-all duration-[250ms] shrink-0 cursor-pointer"
+                          style={{ fontSize: '16px' }}
+                        >
+                          Notify Me
+                        </button>
+                      </form>
+                    </div>
                   ) : (
                     <div className="flex items-center gap-2 text-aurora-emerald text-sm font-medium">
                       <Shield className="w-4 h-4" />
