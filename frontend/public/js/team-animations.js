@@ -27,6 +27,7 @@
       var header = section.querySelector('.team-header');
       var cards = section.querySelectorAll('.team-card');
 
+      // Animate header
       if (header) {
         var eyebrow = header.querySelector('.team-eyebrow');
         var title = header.querySelector('.team-title');
@@ -47,6 +48,7 @@
         if (divider) tl.fromTo(divider, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: 'power2.out' }, '-=0.3');
       }
 
+      // Animate cards in hierarchy order (leadership first, then core, then general)
       if (cards.length > 0) {
         var leadershipCards = section.querySelectorAll('.team-card.leadership');
         var coreCards = section.querySelectorAll('.team-card.core');
@@ -55,7 +57,7 @@
         gsap.set(cards, { y: 30, opacity: 0 });
 
         function animateCards(cardList, stagger, delay) {
-          if (cardList.length === 0) return;
+          if (!cardList || cardList.length === 0) return;
           gsap.to(cardList, {
             y: 0,
             opacity: 1,

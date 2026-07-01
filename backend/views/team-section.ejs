@@ -10,7 +10,8 @@ const SOCIAL_PATHS = {
 %>
 
 <section class="team-section" aria-labelledby="team-title">
-  <div class="team-glow-orbs" aria-hidden="true"></div>
+  <div class="team-glow-left" aria-hidden="true"></div>
+  <div class="team-glow-right" aria-hidden="true"></div>
 
   <div class="max-w-7xl mx-auto">
     <div class="team-header">
@@ -24,33 +25,15 @@ const SOCIAL_PATHS = {
       <div class="team-divider" aria-hidden="true"></div>
     </div>
 
-    <%# Leadership Tier %>
     <% if (locals.team) { %>
       <% const leadership = team.filter(m => m.tier === 'leadership'); %>
       <% const core = team.filter(m => m.tier === 'core'); %>
       <% const general = team.filter(m => m.tier === 'general'); %>
+      <% const ordered = [].concat(leadership, core, general); %>
 
-      <% if (leadership.length > 0) { %>
-        <div class="team-grid-leadership">
-          <% leadership.forEach(function(member) { %>
-            <div class="team-card-leadership">
-              <%- include('team-card', { member: member, tier: 'leadership' }) %>
-            </div>
-          <% }); %>
-        </div>
-      <% } %>
-
-      <% if (core.length > 0) { %>
-        <div class="team-grid-core">
-          <% core.forEach(function(member) { %>
-            <%- include('team-card', { member: member, tier: 'core' }) %>
-          <% }); %>
-        </div>
-      <% } %>
-
-      <div class="team-grid-general">
-        <% general.forEach(function(member) { %>
-          <%- include('team-card', { member: member, tier: 'general' }) %>
+      <div class="team-grid">
+        <% ordered.forEach(function(member, i) { %>
+          <%- include('team-card', { member: member, tier: member.tier, index: i }) %>
         <% }); %>
       </div>
     <% } else { %>

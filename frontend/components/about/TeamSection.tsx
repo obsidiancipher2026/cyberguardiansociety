@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { team, type TeamMember, type Tier } from '@/data/team';
+import { team, type TeamMember } from '@/data/team';
 import '@/styles/team.css';
 
 const SOCIAL_ICONS: Record<string, string> = {
@@ -10,21 +10,12 @@ const SOCIAL_ICONS: Record<string, string> = {
   instagram: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z',
 };
 
-function SocialIcon({ platform }: { platform: string }) {
-  const path = SOCIAL_ICONS[platform];
-  if (!path) return null;
-  return (
-    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-      <path d={path} />
-    </svg>
-  );
-}
-
 function TeamCard({ member, index }: { member: TeamMember; index: number }) {
-  const tier = member.tier as Tier;
+  const tier = member.tier;
   const initials = member.name.split(' ').map(n => n[0]).join('');
   const hasSocials = Object.keys(member.socials).length > 0;
   const socialKeys = Object.keys(member.socials);
+  const photoSize = tier === 'leadership' ? 32 : 24;
 
   return (
     <div
@@ -32,62 +23,66 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
       data-index={index}
       role="article"
       aria-label={`${member.name} — ${member.title}`}
+      tabIndex={0}
     >
-      <div className={`team-card-border-glow ${tier}`} aria-hidden="true" />
+      <div className="team-card-inner">
+        {/* Photo area */}      
+        <div className="team-card-photo">
+          <div className="team-card-photo-ring" />
+          <div className="team-card-photo-placeholder">
+            <span style={{ fontSize: photoSize }}>{initials}</span>
+          </div>
 
-      <div className="team-card-content">
-        <div className={`team-card-photo ${tier}`}>
-          <div className={`team-card-photo-ring ${tier}`} aria-hidden="true" />
-          <div className="w-full h-full flex items-center justify-center bg-[#0A0A0F]">
-            <span style={{ fontSize: tier === 'leadership' ? 32 : 24, fontWeight: 700, color: 'rgba(255,255,255,0.1)' }}>
-              {initials}
-            </span>
+          {/* Overlay (Option A — slides up on hover) */}
+          <div className="team-card-overlay">
+            {member.skills.length > 0 && (
+              <div className="team-card-skills">
+                {member.skills.slice(0, 3).map(skill => (
+                  <span key={skill} className="team-skill-tag">{skill}</span>
+                ))}
+              </div>
+            )}
+            {hasSocials && (
+              <div className="team-card-socials">
+                {socialKeys.map(platform => (
+                  <a
+                    key={platform}
+                    href={member.socials[platform]}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="team-social-link"
+                    aria-label={`${member.name} on ${platform}`}
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path d={SOCIAL_ICONS[platform]} />
+                    </svg>
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
-        <div className={`team-role-badge ${tier}`}>
-          {tier === 'leadership' && (
-            <span className="leadership-icon" aria-hidden="true">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-            </span>
+        {/* Content below photo */}
+        <div className="team-card-content">
+          <div className="team-role-badge">
+            {tier === 'leadership' && (
+              <span className="leadership-star">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                </svg>
+              </span>
+            )}
+            {member.roleBadge}
+          </div>
+
+          <h3 className="team-card-name">{member.name}</h3>
+
+          {member.specialty && (
+            <p className="team-card-specialty">{member.specialty}</p>
           )}
-          {member.roleBadge}
         </div>
-
-        <h3 className={`team-card-name ${tier}`}>{member.name}</h3>
-        {member.specialty && (
-          <p className="team-card-specialty">{member.specialty}</p>
-        )}
-
-        {member.bio && <p className="team-card-bio">{member.bio}</p>}
-
-        {member.skills.length > 0 && (
-          <div className="team-card-skills">
-            {member.skills.slice(0, 4).map(skill => (
-              <span key={skill} className="team-skill-tag">{skill}</span>
-            ))}
-          </div>
-        )}
-
-        {hasSocials && (
-          <div className="team-card-socials">
-            {socialKeys.map(platform => (
-              <a
-                key={platform}
-                href={member.socials[platform]}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="team-social-link"
-                aria-label={`${member.name} on ${platform}`}
-                onClick={e => e.stopPropagation()}
-              >
-                <SocialIcon platform={platform} />
-              </a>
-            ))}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -96,7 +91,6 @@ function TeamCard({ member, index }: { member: TeamMember; index: number }) {
 export default function TeamSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
-  const [visible, setVisible] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
@@ -112,7 +106,6 @@ export default function TeamSection() {
     if (!section) return;
 
     if (reducedMotion) {
-      setVisible(true);
       section.querySelectorAll('.team-card').forEach(el => el.classList.add('visible'));
       headerRef.current?.classList.add('team-header-animate');
       return;
@@ -125,12 +118,9 @@ export default function TeamSection() {
 
           const cards = section.querySelectorAll<HTMLElement>('.team-card');
           cards.forEach((card, i) => {
-            setTimeout(() => {
-              card.classList.add('visible');
-            }, 300 + i * 80);
+            setTimeout(() => { card.classList.add('visible'); }, 300 + i * 80);
           });
 
-          setVisible(true);
           observer.disconnect();
         }
       },
@@ -144,10 +134,12 @@ export default function TeamSection() {
   const leadership = team.filter(m => m.tier === 'leadership');
   const core = team.filter(m => m.tier === 'core');
   const general = team.filter(m => m.tier === 'general');
+  const orderedTeam = [...leadership, ...core, ...general];
 
   return (
     <section ref={sectionRef} className="team-section" aria-labelledby="team-title">
-      <div className="team-glow-orbs" aria-hidden="true" />
+      <div className="team-glow-left" aria-hidden="true" />
+      <div className="team-glow-right" aria-hidden="true" />
 
       <div className="max-w-7xl mx-auto">
         <div ref={headerRef} className="team-header">
@@ -161,27 +153,9 @@ export default function TeamSection() {
           <div className="team-divider" aria-hidden="true" />
         </div>
 
-        {leadership.length > 0 && (
-          <div className="team-grid-leadership">
-            {leadership.map((member, i) => (
-              <div key={member.name} className="team-card-leadership">
-                <TeamCard member={member} index={i} />
-              </div>
-            ))}
-          </div>
-        )}
-
-        {core.length > 0 && (
-          <div className="team-grid-core">
-            {core.map((member, i) => (
-              <TeamCard key={member.name} member={member} index={leadership.length + i} />
-            ))}
-          </div>
-        )}
-
-        <div className="team-grid-general">
-          {general.map((member, i) => (
-            <TeamCard key={member.name} member={member} index={leadership.length + core.length + i} />
+        <div className="team-grid">
+          {orderedTeam.map((member, i) => (
+            <TeamCard key={member.name} member={member} index={i} />
           ))}
         </div>
       </div>
