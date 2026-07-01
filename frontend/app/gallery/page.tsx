@@ -25,31 +25,24 @@ interface GalleryItem {
 const staticPosters: GalleryItem[] = [
   {
     id: 'poster-1',
-    title: 'CyberGuardians Collaborators',
-    description: 'Our collaboration poster',
+    title: 'Collaboration with NineByte Security',
+    description: '',
     imageUrl: '/images/gallery/collaborators.png',
     category: 'collaboration',
   },
   {
     id: 'poster-2',
-    title: 'Collaboration Spotlight',
-    description: 'Community collaboration initiative',
+    title: 'Collaboration with Youth Empowerment',
+    description: '',
     imageUrl: '/images/gallery/collaborators-2.png',
     category: 'collaboration',
   },
   {
     id: 'poster-3',
-    title: 'Partner Network',
-    description: 'CyberGuardians partner network',
+    title: 'Collaboration with QUEST Cybersecurity Student Society',
+    description: '',
     imageUrl: '/images/gallery/collaborators-3.png',
     category: 'collaboration',
-  },
-  {
-    id: 'poster-4',
-    title: 'Community Event',
-    description: 'Cybersecurity community event poster',
-    imageUrl: '/images/gallery/poster-1.jfif',
-    category: 'sessions',
   },
 ];
 
