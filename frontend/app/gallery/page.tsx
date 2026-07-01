@@ -7,11 +7,14 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll';
 import EmptyState from '@/components/ui/EmptyState';
 import AuroraGlow from '@/components/ui/AuroraGlow';
 
-const filters = ['All', 'Certificates', 'Bootcamps', 'Sessions'];
+const filters = ['All', 'Certificates', 'Bootcamps', 'Sessions', 'Collaboration', 'Sponsors', 'Other'];
 const filterMap: Record<string, string> = {
   'Certificates': 'certificates',
   'Bootcamps': 'bootcamps',
   'Sessions': 'sessions',
+  'Collaboration': 'collaboration',
+  'Sponsors': 'sponsors',
+  'Other': 'other',
 };
 
 interface GalleryItem {
@@ -43,6 +46,48 @@ const staticPosters: GalleryItem[] = [
     description: '',
     imageUrl: '/images/gallery/collaborators-3.png',
     category: 'collaboration',
+  },
+  {
+    id: 'poster-4',
+    title: 'Community Event',
+    description: '',
+    imageUrl: '/images/gallery/poster-1.jfif',
+    category: 'sessions',
+  },
+  {
+    id: 'poster-5',
+    title: 'Project Glasswing',
+    description: '',
+    imageUrl: '',
+    category: 'other',
+  },
+  {
+    id: 'sponsor-1',
+    title: 'NineByte Security',
+    description: '',
+    imageUrl: '/images/sponsors/ninebyte.png',
+    category: 'sponsors',
+  },
+  {
+    id: 'sponsor-2',
+    title: 'Youth Empowerment',
+    description: '',
+    imageUrl: '/images/sponsors/youth-empowerment.png',
+    category: 'sponsors',
+  },
+  {
+    id: 'sponsor-3',
+    title: 'QUEST Cybersecurity Student Society',
+    description: '',
+    imageUrl: '/images/sponsors/quest.png',
+    category: 'sponsors',
+  },
+  {
+    id: 'sponsor-4',
+    title: 'TryHackMe',
+    description: '',
+    imageUrl: '/images/sponsors/tryhackme.svg',
+    category: 'sponsors',
   },
 ];
 
@@ -141,7 +186,7 @@ export default function GalleryPage() {
               {items.map((item, idx) => (
                 <RevealOnScroll key={item.id} delay={idx * 50} className="break-inside-avoid">
                   <div className="glass-card overflow-hidden group hover:border-aurora-violet/20 transition-all duration-300">
-                    {item.imageUrl && (
+                    {item.imageUrl ? (
                       <div className="relative overflow-hidden">
                         <img
                           src={item.imageUrl}
@@ -152,6 +197,10 @@ export default function GalleryPage() {
                         <div className="absolute bottom-3 left-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                           <span className="mono-label text-[10px]">{item.category}</span>
                         </div>
+                      </div>
+                    ) : (
+                      <div className="relative h-48 flex items-center justify-center bg-gradient-to-br from-aurora-violet/10 to-aurora-cyan/10">
+                        <span className="text-text-muted text-sm font-medium">{item.title}</span>
                       </div>
                     )}
                     <div className="p-4">
