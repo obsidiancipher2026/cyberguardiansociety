@@ -1,24 +1,85 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Shield, Briefcase, GraduationCap, Heart, Clock, Users, Award, Loader2 } from 'lucide-react';
+import {
+  Shield,
+  Briefcase,
+  GraduationCap,
+  Heart,
+  Clock,
+  Users,
+  Award,
+  ArrowRight,
+  Loader2,
+  Send,
+} from 'lucide-react';
 import api from '@/utils/api';
 import OpeningModal from '@/components/ui/OpeningModal';
-import ClickableText from '@/components/ui/ClickableText';
-import {
-  HoverCard,
-  HoverCardTrigger,
-  HoverCardContent,
-  HoverCardPortal,
-} from '@/components/animate-ui/primitives/radix/hover-card';
+import RevealOnScroll from '@/components/ui/RevealOnScroll';
+import EmptyState from '@/components/ui/EmptyState';
+import AuroraGlow from '@/components/ui/AuroraGlow';
 
 const benefits = [
-  { icon: Briefcase, title: 'Career Growth', desc: 'Gain valuable experience and build your professional portfolio.', color: 'text-cyan-core' },
-  { icon: Users, title: 'Network', desc: 'Connect with industry professionals and expand your circle.', color: 'text-teal-accent' },
-  { icon: GraduationCap, title: 'Learning', desc: 'Access exclusive training materials and workshops.', color: 'text-purple-glow' },
-  { icon: Award, title: 'Recognition', desc: 'Earn certificates, badges, and community recognition.', color: 'text-[#FFB300]' },
-  { icon: Clock, title: 'Flexible Hours', desc: 'Volunteer on your own schedule, from anywhere in the world.', color: 'text-cyan-dim' },
-  { icon: Heart, title: 'Impact', desc: 'Make a real difference in cybersecurity education and defense.', color: 'text-red-threat' },
+  {
+    icon: Briefcase,
+    title: 'Career Growth',
+    desc: 'Gain real-world experience and build a professional portfolio that stands out in the cybersecurity industry.',
+    color: 'text-aurora-violet',
+    bgColor: 'bg-aurora-violet/10',
+  },
+  {
+    icon: Users,
+    title: 'Professional Network',
+    desc: 'Connect with seasoned professionals, mentors, and fellow volunteers across the global security community.',
+    color: 'text-aurora-cyan',
+    bgColor: 'bg-aurora-cyan/10',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Continuous Learning',
+    desc: 'Access exclusive training materials, workshops, and hands-on labs led by industry experts.',
+    color: 'text-aurora-emerald',
+    bgColor: 'bg-aurora-emerald/10',
+  },
+  {
+    icon: Award,
+    title: 'Public Recognition',
+    desc: 'Earn certificates, digital badges, and community recognition for your contributions and milestones.',
+    color: 'text-signal-amber',
+    bgColor: 'bg-signal-amber/10',
+  },
+  {
+    icon: Clock,
+    title: 'Flexible Schedule',
+    desc: 'Volunteer on your own time, from anywhere in the world — your pace, your commitment.',
+    color: 'text-aurora-cyan',
+    bgColor: 'bg-aurora-cyan/10',
+  },
+  {
+    icon: Heart,
+    title: 'Meaningful Impact',
+    desc: 'Make a tangible difference in cybersecurity education and help defend communities from digital threats.',
+    color: 'text-alert-coral',
+    bgColor: 'bg-alert-coral/10',
+  },
+];
+
+const steps = [
+  {
+    num: '01',
+    title: 'Browse Openings',
+    desc: 'Explore available volunteer positions and find the role that matches your skills and interests.',
+  },
+  {
+    num: '02',
+    title: 'Apply & Onboard',
+    desc: 'Submit your application. Once accepted, you will receive access to our onboarding materials and Slack workspace.',
+  },
+  {
+    num: '03',
+    title: 'Contribute & Grow',
+    desc: 'Start contributing to projects, attend workshops, and grow alongside a community of security-minded individuals.',
+  },
 ];
 
 interface Opening {
@@ -33,132 +94,231 @@ export default function CareerPage() {
   const [openings, setOpenings] = useState<Opening[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedOpening, setSelectedOpening] = useState<Opening | null>(null);
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
-    api.get('/openings')
+    api
+      .get('/openings')
       .then((res) => setOpenings(res.data.data || []))
       .catch(() => setOpenings([]))
       .finally(() => setLoading(false));
   }, []);
 
+  const handleEmailSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim()) {
+      api
+        .post('/notifications', { email: email.trim(), type: 'career_updates' })
+        .catch(() => {});
+      setSubmitted(true);
+      setEmail('');
+    }
+  };
+
   return (
-    <div className="min-h-screen">
-      <section className="relative py-16 md:py-20 overflow-hidden hero-mesh">
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <span className="terminal-eyebrow mb-4 inline-block">CAREER & VOLUNTEERING</span>
-          <h1 className="font-display font-extrabold text-red-threat mb-4" style={{ fontSize: 'clamp(28px, 4vw, 48px)' }}>
-            Join the <span className="text-cyan-core">CGS Team</span>
-          </h1>
-          <p className="text-white-muted max-w-2xl mx-auto" style={{ fontSize: '15px' }}>
-            Turn your passion for cybersecurity into impact. Explore volunteer opportunities and
-            contribute to a global mission of digital defense.
-          </p>
+    <div className="min-h-screen bg-base">
+      {/* ── Hero ── */}
+      <section className="relative py-24 md:py-32 overflow-hidden">
+        <AuroraGlow color="mixed" size={700} className="top-[-200px] left-1/2 -translate-x-1/2" />
+
+        <div className="relative z-10 max-w-[1400px] mx-auto px-6 lg:px-24 text-center">
+          <RevealOnScroll>
+            <span className="section-label justify-center mb-6">Career &amp; Volunteering</span>
+          </RevealOnScroll>
+
+          <RevealOnScroll delay={100}>
+            <h1 className="section-title mb-5">
+              Join the <span className="gradient-text">CGS Team</span>
+            </h1>
+          </RevealOnScroll>
+
+          <RevealOnScroll delay={200}>
+            <p className="section-subtitle mx-auto">
+              Turn your passion for cybersecurity into impact. Explore volunteer opportunities
+              and contribute to a global mission of digital defense.
+            </p>
+          </RevealOnScroll>
         </div>
       </section>
 
-      <section className="py-12 md:py-16 bg-abyss">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <span className="terminal-eyebrow mb-4 inline-block">OPEN POSITIONS</span>
-            <h2 className="font-display font-bold text-red-threat mb-3" style={{ fontSize: 'clamp(24px, 3vw, 30px)' }}>
-              Open Volunteer <span className="text-cyan-core">Positions</span>
-            </h2>
-            <p className="text-white-muted max-w-xl mx-auto" style={{ fontSize: '15px' }}>
-              We are looking for passionate individuals to join our mission. No prior experience required — just dedication and a willingness to learn.
-            </p>
-          </div>
+      {/* ── Open Positions ── */}
+      <section className="py-[140px] bg-surface">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-24">
+          <RevealOnScroll>
+            <div className="text-center mb-12">
+              <span className="section-label justify-center mb-5">Open Positions</span>
+              <h2 className="section-title">
+                Volunteer <span className="gradient-text">Opportunities</span>
+              </h2>
+              <p className="section-subtitle mx-auto mt-4">
+                We are looking for passionate individuals to join our mission. No prior experience
+                required — just dedication and a willingness to learn.
+              </p>
+            </div>
+          </RevealOnScroll>
 
           {loading ? (
-            <div className="text-center py-16 bg-surface border border-border rounded-xl" style={{ boxShadow: 'var(--shadow-card)' }}>
-              <Loader2 className="w-6 h-6 text-cyan-core animate-spin mx-auto mb-3" />
-              <p className="text-white-muted" style={{ fontSize: '13px' }}>Loading openings...</p>
-            </div>
+            <RevealOnScroll delay={100}>
+              <div className="glass-card-static p-16 text-center">
+                <Loader2 className="w-6 h-6 text-aurora-violet animate-spin mx-auto mb-4" />
+                <p className="text-text-secondary text-sm">Scanning for openings...</p>
+              </div>
+            </RevealOnScroll>
           ) : openings.length === 0 ? (
-            <div className="text-center py-16 bg-surface border border-border rounded-xl" style={{ boxShadow: 'var(--shadow-card)' }}>
-              <Briefcase className="w-10 h-10 text-white-ghost mx-auto mb-3" />
-              <p className="text-white-muted mb-1" style={{ fontSize: '15px' }}>No open positions right now.</p>
-              <p className="text-white-ghost" style={{ fontSize: '13px' }}>Check back soon — we are always growing.</p>
-            </div>
+            <RevealOnScroll delay={100}>
+              <EmptyState
+                variant="radar"
+                icon={<Briefcase />}
+                title="No Open Positions Right Now"
+                description="No active volunteer roles at the moment. Drop your email and we will notify you the moment new positions open."
+                action={
+                  !submitted ? (
+                    <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 mt-2 max-w-md mx-auto">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="you@example.com"
+                        required
+                        className="flex-1 px-4 py-3 bg-elevated border border-white/[0.08] rounded-lg text-text-primary text-sm placeholder:text-text-muted focus:border-aurora-violet focus:outline-none focus:ring-2 focus:ring-aurora-violet/20 transition-all"
+                      />
+                      <button
+                        type="submit"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-aurora-violet text-white text-sm font-semibold rounded-lg hover:bg-aurora-violet/90 transition-colors shrink-0"
+                      >
+                        <Send className="w-4 h-4" />
+                        Notify Me
+                      </button>
+                    </form>
+                  ) : (
+                    <div className="flex items-center gap-2 text-aurora-emerald text-sm font-medium">
+                      <Shield className="w-4 h-4" />
+                      You are on the list. We will reach out when new positions open.
+                    </div>
+                  )
+                }
+              />
+            </RevealOnScroll>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {openings.map((opening) => (
-                <div
-                  key={opening.id}
-                  className="cyber-card p-6 relative overflow-hidden cursor-pointer"
-                  onClick={() => setSelectedOpening(opening)}
-                >
-                  <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-cyan-core to-red-threat" />
-                  <div className="flex items-start justify-between mb-3">
-                    <HoverCard openDelay={200} closeDelay={100}>
-                      <HoverCardTrigger asChild>
-                        <h3 className="font-display font-semibold text-red-threat cursor-pointer hover:text-cyan-core transition-colors" style={{ fontSize: '15px' }}>{opening.title}</h3>
-                      </HoverCardTrigger>
-                      <HoverCardPortal>
-                        <HoverCardContent side="top" sideOffset={8} className="w-80">
-                          <div className="space-y-2">
-                            <div className="flex items-center justify-between">
-                              <p className="text-sm font-semibold text-white">{opening.title}</p>
-                              <span className="font-mono text-[9px] px-1.5 py-0.5 rounded-full bg-cyan-ghost text-cyan-core tracking-wider uppercase">{opening.type}</span>
-                            </div>
-                            <p className="text-xs text-[var(--text-secondary)] leading-relaxed line-clamp-4">{opening.description}</p>
-                            {opening.tags && opening.tags.length > 0 && (
-                              <div className="flex flex-wrap gap-1 pt-1">
-                                {opening.tags.map((tag, i) => (
-                                  <span key={i} className="font-mono text-[9px] px-1.5 py-0.5 rounded-full bg-red-threat/10 text-red-threat tracking-wider">
-                                    {tag}
-                                  </span>
-                                ))}
-                              </div>
-                            )}
-                          </div>
-                        </HoverCardContent>
-                      </HoverCardPortal>
-                    </HoverCard>
-                    <span className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-cyan-ghost text-cyan-core tracking-wider uppercase shrink-0 ml-2">
-                      {opening.type}
-                    </span>
-                  </div>
-                  <p className="text-white-muted mb-4 line-clamp-3" style={{ fontSize: '13px' }}>{opening.description}</p>
-                  {opening.tags && opening.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mb-4">
-                      {opening.tags.map((tag, i) => (
-                        <span key={i} className="font-mono text-[10px] px-2 py-0.5 rounded-full bg-red-threat/10 text-red-threat tracking-wider">
-                          {tag}
-                        </span>
-                      ))}
+              {openings.map((opening, i) => (
+                <RevealOnScroll key={opening.id} delay={i * 80}>
+                  <div
+                    className="glass-card p-6 group cursor-pointer"
+                    onClick={() => setSelectedOpening(opening)}
+                  >
+                    <div className="flex items-start justify-between mb-4">
+                      <h3 className="font-display font-semibold text-text-primary text-[15px] group-hover:text-aurora-violet transition-colors leading-snug">
+                        {opening.title}
+                      </h3>
+                      <span className="mono-label text-aurora-cyan bg-aurora-cyan/10 px-2 py-0.5 rounded-full text-[10px] tracking-wider shrink-0 ml-3">
+                        {opening.type}
+                      </span>
                     </div>
-                  )}
-                  <div className="flex items-center gap-1 text-cyan-core text-[13px] font-medium">
-                    View Details →
+
+                    <p className="text-text-secondary text-[13px] leading-relaxed line-clamp-3 mb-4">
+                      {opening.description}
+                    </p>
+
+                    {opening.tags && opening.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-1.5 mb-5">
+                        {opening.tags.map((tag, i) => (
+                          <span
+                            key={i}
+                            className="mono-label text-aurora-violet bg-aurora-violet/10 px-2 py-0.5 rounded-full text-[10px] tracking-wider"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div className="flex items-center gap-1.5 text-aurora-violet text-[13px] font-medium group-hover:gap-2.5 transition-all">
+                      View Details
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </div>
                   </div>
-                </div>
+                </RevealOnScroll>
               ))}
             </div>
           )}
         </div>
       </section>
 
-      <section className="py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="text-center mb-10">
-            <span className="terminal-eyebrow mb-4 inline-block">BENEFITS</span>
-            <h2 className="font-display font-bold text-red-threat" style={{ fontSize: 'clamp(24px, 3vw, 30px)' }}>
-              Why Volunteer With <span className="text-cyan-core">CGS</span>
-            </h2>
+      {/* ── How Volunteering Works ── */}
+      <section className="py-[140px]">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-24">
+          <RevealOnScroll>
+            <div className="text-center mb-16">
+              <span className="section-label justify-center mb-5">Process</span>
+              <h2 className="section-title">
+                How Volunteering <span className="gradient-text">Works</span>
+              </h2>
+              <p className="section-subtitle mx-auto mt-4">
+                A simple, structured path from interest to active contribution.
+              </p>
+            </div>
+          </RevealOnScroll>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* horizontal connector rail */}
+            <div className="hidden md:block absolute top-[36px] left-[calc(16.67%+20px)] right-[calc(16.67%+20px)] h-[2px] bg-gradient-to-r from-aurora-violet/40 via-aurora-cyan/30 to-aurora-emerald/20" />
+
+            {steps.map((step, i) => (
+              <RevealOnScroll key={step.num} delay={i * 120}>
+                <div className="relative text-center px-6">
+                  <div className="w-[72px] h-[72px] rounded-2xl bg-surface-raised border border-white/[0.08] flex items-center justify-center mx-auto mb-6 relative z-10">
+                    <span className="mono-label text-aurora-violet text-lg font-bold tracking-tight">
+                      {step.num}
+                    </span>
+                  </div>
+                  <h3 className="font-display font-semibold text-text-primary text-lg mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-text-secondary text-sm leading-relaxed max-w-[280px] mx-auto">
+                    {step.desc}
+                  </p>
+                </div>
+              </RevealOnScroll>
+            ))}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {benefits.map((ben) => {
+        </div>
+      </section>
+
+      {/* ── Why Volunteer ── */}
+      <section className="py-[140px] bg-surface">
+        <div className="max-w-[1400px] mx-auto px-6 lg:px-24">
+          <RevealOnScroll>
+            <div className="text-center mb-16">
+              <span className="section-label justify-center mb-5">Benefits</span>
+              <h2 className="section-title">
+                Why Volunteer With <span className="gradient-text">CGS</span>
+              </h2>
+            </div>
+          </RevealOnScroll>
+
+          <div className="space-y-5 max-w-3xl mx-auto">
+            {benefits.map((ben, i) => {
               const Icon = ben.icon;
               return (
-                <div key={ben.title} className="cyber-card p-6 flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-cyan-ghost flex items-center justify-center shrink-0">
-                    <Icon className={`w-5 h-5 ${ben.color}`} />
+                <RevealOnScroll key={ben.title} delay={i * 80}>
+                  <div className="glass-card p-6 flex items-start gap-5">
+                    <div
+                      className={`w-12 h-12 rounded-xl ${ben.bgColor} flex items-center justify-center shrink-0`}
+                    >
+                      <Icon className={`w-5 h-5 ${ben.color}`} />
+                    </div>
+                    <div>
+                      <h3 className="font-display font-semibold text-text-primary text-[15px] mb-1">
+                        {ben.title}
+                      </h3>
+                      <p className="text-text-secondary text-[13px] leading-relaxed">
+                        {ben.desc}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                    <h3 className="font-display font-semibold text-red-threat mb-1" style={{ fontSize: '15px' }}>{ben.title}</h3>
-                    <ClickableText text={ben.desc} className="text-white-muted" style={{ fontSize: '13px' }} />
-                  </div>
-                </div>
+                </RevealOnScroll>
               );
             })}
           </div>
