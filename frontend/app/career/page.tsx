@@ -185,9 +185,9 @@ export default function CareerPage() {
                       />
                       <button
                         type="submit"
-                        className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 bg-aurora-violet text-white text-xs font-semibold rounded-lg hover:bg-aurora-violet/90 transition-colors shrink-0"
+                        className="inline-flex items-center justify-center gap-1 px-2.5 py-1 bg-aurora-violet text-white text-[11px] font-semibold rounded-md hover:bg-aurora-violet/90 transition-colors shrink-0"
                       >
-                        <Send className="w-3 h-3" />
+                        <Send className="w-2.5 h-2.5" />
                         Notify Me
                       </button>
                     </form>
