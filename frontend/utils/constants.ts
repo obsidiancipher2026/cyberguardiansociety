@@ -12,7 +12,7 @@ export const siteInfo = {
 export const navLinks = [
   { label: 'Home', href: '/' },
   { label: 'About', href: '/about' },
-  { label: 'What CGS Do', href: '/what-cgs-do' },
+  { label: 'What We Do', href: '/what-cgs-do' },
   { label: 'Career', href: '/career' },
   { label: 'Resources', href: '/resources' },
   { label: 'Testimonials', href: '/testimonials' },

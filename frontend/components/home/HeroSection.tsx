@@ -145,9 +145,9 @@ export default function HeroSection() {
 
             {/* Inline stat strip — mono style, no boxed cards */}
             <div className="flex items-center gap-10 justify-center lg:justify-start">
-              <StatCounter value={200} suffix="+" label="Members" />
-              <StatCounter value={50} suffix="+" label="Events" />
-              <StatCounter value={15} suffix="+" label="Countries" />
+              <StatCounter value={7} suffix="+" label="Members" />
+              <StatCounter value={1} label="Events" />
+              <StatCounter value={1} label="Countries" />
             </div>
           </div>
 

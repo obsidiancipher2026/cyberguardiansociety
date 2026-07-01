@@ -93,10 +93,10 @@ export default function Navbar() {
                 ))}
               </div>
 
-              {/* Join CGS — gradient border button */}
+              {/* Join CGS — gradient border style */}
               <Link
                 href="/career"
-                className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold text-text-primary rounded-lg border border-white/[0.08] hover:border-aurora-violet/40 hover:bg-aurora-violet/[0.06] transition-all duration-200"
+                className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold text-text-primary rounded-lg border border-aurora-violet/30 bg-aurora-violet/[0.06] hover:bg-aurora-violet/[0.12] hover:border-aurora-violet/60 transition-all duration-200"
               >
                 Join CGS
               </Link>

@@ -174,20 +174,20 @@ export default function CareerPage() {
                 description="No active volunteer roles at the moment. Drop your email and we will notify you the moment new positions open."
                 action={
                   !submitted ? (
-                    <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-3 mt-2 max-w-md mx-auto">
+                    <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-2 mt-2 max-w-md mx-auto">
                       <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="you@example.com"
                         required
-                        className="flex-1 px-4 py-3 bg-elevated border border-white/[0.08] rounded-lg text-text-primary text-sm placeholder:text-text-muted focus:border-aurora-violet focus:outline-none focus:ring-2 focus:ring-aurora-violet/20 transition-all"
+                        className="flex-1 px-3 py-2 bg-elevated border border-white/[0.08] rounded-lg text-text-primary text-sm placeholder:text-text-muted focus:border-aurora-violet focus:outline-none focus:ring-1 focus:ring-aurora-violet/20 transition-all"
                       />
                       <button
                         type="submit"
-                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-aurora-violet text-white text-sm font-semibold rounded-lg hover:bg-aurora-violet/90 transition-colors shrink-0"
+                        className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-aurora-violet text-white text-sm font-semibold rounded-lg hover:bg-aurora-violet/90 transition-colors shrink-0"
                       >
-                        <Send className="w-4 h-4" />
+                        <Send className="w-3.5 h-3.5" />
                         Notify Me
                       </button>
                     </form>

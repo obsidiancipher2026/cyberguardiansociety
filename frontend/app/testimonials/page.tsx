@@ -28,6 +28,12 @@ export default function TestimonialsPage() {
   const [volunteerReviews, setVolunteerReviews] = useState<Testimonial[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeFilter, setActiveFilter] = useState<FilterKey>('all');
+  const [formName, setFormName] = useState('');
+  const [formText, setFormText] = useState('');
+  const [formType, setFormType] = useState('student');
+  const [formRating, setFormRating] = useState(5);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
@@ -42,6 +48,48 @@ export default function TestimonialsPage() {
     };
     fetchTestimonials();
   }, []);
+
+  const handleStorySubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formText.trim() || !formName.trim()) return;
+    setFormSubmitting(true);
+
+    const newReview: Testimonial = {
+      id: `local-${Date.now()}`,
+      name: formName.trim(),
+      text: formText.trim(),
+      type: formType,
+      role: formType === 'student' ? 'Student' : 'Volunteer',
+      rating: formRating,
+    };
+
+    // Add to local state immediately
+    if (formType === 'student') {
+      setStudentReviews((prev) => [...prev, newReview]);
+    } else {
+      setVolunteerReviews((prev) => [...prev, newReview]);
+    }
+
+    setFormName('');
+    setFormText('');
+    setFormRating(5);
+    setFormSubmitted(true);
+
+    // Post to API in background
+    try {
+      await api.post('/testimonials', {
+        name: newReview.name,
+        text: newReview.text,
+        type: newReview.type,
+        role: newReview.role,
+        rating: newReview.rating,
+      });
+    } catch {
+      // Review is already visible locally, API failure is acceptable
+    } finally {
+      setFormSubmitting(false);
+    }
+  };
 
   const allReviews: Testimonial[] = [...studentReviews, ...volunteerReviews];
   const filteredReviews = activeFilter === 'all'
@@ -205,7 +253,7 @@ export default function TestimonialsPage() {
               <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-surface border border-white/[0.08]">
                 <Users className="w-5 h-5 text-aurora-emerald" />
                 <div className="flex items-center gap-2">
-                  <span className="font-mono text-2xl font-bold gradient-text">500+</span>
+                  <span className="font-mono text-2xl font-bold gradient-text">90+</span>
                   <span className="text-text-muted text-sm">community members</span>
                 </div>
               </div>
@@ -214,6 +262,15 @@ export default function TestimonialsPage() {
             {/* Right — inline form */}
             <RevealOnScroll delay={100}>
               <div className="glass-card p-8">
+                {formSubmitted ? (
+                  <div className="text-center py-6">
+                    <div className="w-14 h-14 rounded-full bg-aurora-emerald/10 flex items-center justify-center mx-auto mb-4">
+                      <Shield className="w-7 h-7 text-aurora-emerald" />
+                    </div>
+                    <h3 className="font-display font-semibold text-text-primary text-lg mb-1">Thank You!</h3>
+                    <p className="text-text-secondary text-sm">Your review is now visible. Stories like yours inspire the community.</p>
+                  </div>
+                ) : (<>
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-10 h-10 rounded-xl bg-aurora-violet/10 flex items-center justify-center">
                     <Shield className="w-5 h-5 text-aurora-violet" />
@@ -224,19 +281,25 @@ export default function TestimonialsPage() {
                   </div>
                 </div>
 
-                <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                <form className="space-y-4" onSubmit={handleStorySubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <label className="mono-label text-[10px] text-text-muted mb-1.5 block">Your Name</label>
                       <input
                         type="text"
+                        value={formName}
+                        onChange={(e) => setFormName(e.target.value)}
                         placeholder="e.g. Alex Chen"
                         className="w-full px-4 py-2.5 rounded-lg bg-base border border-white/[0.08] text-text-primary text-sm placeholder:text-text-muted/50 focus:outline-none focus:border-aurora-violet/40 transition-colors"
                       />
                     </div>
                     <div>
                       <label className="mono-label text-[10px] text-text-muted mb-1.5 block">Role</label>
-                      <select className="w-full px-4 py-2.5 rounded-lg bg-base border border-white/[0.08] text-text-primary text-sm focus:outline-none focus:border-aurora-violet/40 transition-colors appearance-none">
+                      <select
+                        value={formType}
+                        onChange={(e) => setFormType(e.target.value)}
+                        className="w-full px-4 py-2.5 rounded-lg bg-base border border-white/[0.08] text-text-primary text-sm focus:outline-none focus:border-aurora-violet/40 transition-colors appearance-none"
+                      >
                         <option value="student">Student</option>
                         <option value="volunteer">Volunteer</option>
                       </select>
@@ -246,6 +309,8 @@ export default function TestimonialsPage() {
                   <div>
                     <label className="mono-label text-[10px] text-text-muted mb-1.5 block">Your Story</label>
                     <textarea
+                      value={formText}
+                      onChange={(e) => setFormText(e.target.value)}
                       rows={4}
                       placeholder="Tell us about your experience in the community…"
                       className="w-full px-4 py-2.5 rounded-lg bg-base border border-white/[0.08] text-text-primary text-sm placeholder:text-text-muted/50 focus:outline-none focus:border-aurora-violet/40 transition-colors resize-none"
@@ -256,7 +321,7 @@ export default function TestimonialsPage() {
                     <label className="mono-label text-[10px] text-text-muted mb-1.5 block">Rating</label>
                     <div className="flex gap-1">
                       {[1, 2, 3, 4, 5].map((star) => (
-                        <button key={star} type="button" className="text-text-muted hover:text-signal-amber transition-colors">
+                        <button key={star} type="button" onClick={() => setFormRating(star)} className={`${star <= formRating ? 'text-signal-amber' : 'text-text-muted'} hover:text-signal-amber transition-colors`}>
                           <Star className="w-5 h-5" />
                         </button>
                       ))}
@@ -270,6 +335,7 @@ export default function TestimonialsPage() {
                     Submit Testimonial
                   </button>
                 </form>
+                </>)}
               </div>
             </RevealOnScroll>
           </div>

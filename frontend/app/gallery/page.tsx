@@ -7,11 +7,9 @@ import RevealOnScroll from '@/components/ui/RevealOnScroll';
 import EmptyState from '@/components/ui/EmptyState';
 import AuroraGlow from '@/components/ui/AuroraGlow';
 
-const filters = ['All', 'Certificates', 'Collaboration', 'Sponsors', 'Bootcamps', 'Sessions'];
+const filters = ['All', 'Certificates', 'Bootcamps', 'Sessions'];
 const filterMap: Record<string, string> = {
   'Certificates': 'certificates',
-  'Collaboration': 'collaboration',
-  'Sponsors': 'sponsors',
   'Bootcamps': 'bootcamps',
   'Sessions': 'sessions',
 };

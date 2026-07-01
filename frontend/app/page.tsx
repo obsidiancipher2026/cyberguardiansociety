@@ -1,23 +1,21 @@
 import HeroSection from '@/components/home/HeroSection';
 import AboutSection from '@/components/home/AboutSection';
-import EventsSection from '@/components/home/EventsSection';
 import CTFSection from '@/components/home/CTFSection';
 import ResourcesSection from '@/components/home/ResourcesSection';
 import VolunteerSection from '@/components/home/VolunteerSection';
+import CollaborationSection from '@/components/home/CollaborationSection';
 import SponsorsSection from '@/components/home/SponsorsSection';
-import TestimonialsSection from '@/components/home/TestimonialsSection';
 
 export default function HomePage() {
   return (
     <>
       <HeroSection />
       <AboutSection />
-      <EventsSection />
       <CTFSection />
       <ResourcesSection />
       <VolunteerSection />
+      <CollaborationSection />
       <SponsorsSection />
-      <TestimonialsSection />
     </>
   );
 }
