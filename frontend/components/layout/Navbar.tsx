@@ -93,10 +93,10 @@ export default function Navbar() {
                 ))}
               </div>
 
-              {/* Join CGS — solid aurora-violet */}
+              {/* Join CGS */}
               <Link
                 href="/career"
-                className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold text-white rounded-lg bg-aurora-violet hover:bg-aurora-violet/90 transition-all duration-200"
+                className="hidden lg:inline-flex items-center gap-1.5 px-3.5 py-1.5 text-[12px] font-semibold whitespace-nowrap text-white rounded-lg bg-aurora-violet hover:bg-aurora-violet/90 transition-all duration-200"
               >
                 Join CGS
               </Link>
