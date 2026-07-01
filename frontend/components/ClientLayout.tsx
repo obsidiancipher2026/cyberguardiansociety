@@ -14,15 +14,13 @@ import {
 export default function ClientLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const isAdmin = pathname.startsWith('/admin');
   const isMaintenance = pathname === '/maintenance';
   const [maintenanceMode, setMaintenanceMode] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function checkMaintenance() {
-      // Skip check for admin routes and maintenance page itself
-      if (isAdmin || isMaintenance) {
+      if (isMaintenance) {
         setLoading(false);
         return;
       }
@@ -36,26 +34,20 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
           router.push('/maintenance');
         }
       } catch (error) {
-        // If API fails, allow access (fail open)
       } finally {
         setLoading(false);
       }
     }
 
     checkMaintenance();
-  }, [isAdmin, isMaintenance, router, pathname]);
-
-  // For admin routes, render without navbar/footer
-  if (isAdmin) {
-    return <>{children}</>;
-  }
+  }, [isMaintenance, router, pathname]);
 
   // For maintenance page, render without navbar/footer
   if (isMaintenance) {
     return <>{children}</>;
   }
 
-  // If in maintenance mode and not admin, redirect to maintenance page
+  // If in maintenance mode, redirect to maintenance page
   if (maintenanceMode) {
     return <>{children}</>;
   }

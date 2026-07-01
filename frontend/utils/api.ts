@@ -26,13 +26,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response) {
-      const { status, data } = error.response;
-      if (status === 401 && typeof window !== 'undefined') {
-        const onLoginPage = window.location.pathname === '/admin/login';
-        if (!onLoginPage && window.location.pathname.startsWith('/admin')) {
-          window.location.href = '/admin/login';
-        }
-      }
+      const { data } = error.response;
       return Promise.reject(new Error(toErrorMessage(data)));
     }
     if (error.request) {
