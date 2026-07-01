@@ -60,7 +60,7 @@ export default function Navbar() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative px-3.5 py-2 text-[13px] font-medium transition-colors duration-200 ${
+                    className={`relative px-3.5 py-2 text-[13px] font-medium whitespace-nowrap transition-colors duration-200 ${
                       isActive
                         ? 'text-text-primary'
                         : 'text-text-secondary hover:text-text-primary'
@@ -93,10 +93,10 @@ export default function Navbar() {
                 ))}
               </div>
 
-              {/* Join CGS — gradient border style */}
+              {/* Join CGS — solid aurora-violet */}
               <Link
                 href="/career"
-                className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold text-text-primary rounded-lg border border-aurora-violet/30 bg-aurora-violet/[0.06] hover:bg-aurora-violet/[0.12] hover:border-aurora-violet/60 transition-all duration-200"
+                className="hidden lg:inline-flex items-center gap-2 px-5 py-2.5 text-[13px] font-semibold text-white rounded-lg bg-aurora-violet hover:bg-aurora-violet/90 transition-all duration-200"
               >
                 Join CGS
               </Link>

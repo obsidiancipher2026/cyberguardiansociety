@@ -100,7 +100,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           <Link
             href="/career"
             onClick={handleClose}
-            className={`flex items-center justify-center gap-2 w-full py-4 rounded-xl text-[15px] font-semibold text-text-primary border border-aurora-violet/40 bg-aurora-violet/[0.08] transition-all duration-300 ${
+            className={`flex items-center justify-center gap-2 w-full py-4 rounded-xl text-[15px] font-semibold text-white bg-aurora-violet hover:bg-aurora-violet/90 transition-all duration-300 ${
               visible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
             }`}
             style={{ transitionDelay: visible ? `${80 + navLinks.length * 50}ms` : '0ms' }}
