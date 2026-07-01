@@ -36,9 +36,14 @@ export const useAdminStore = create<AdminState>()((set) => ({
       }
       return { success: false, error: data.error || 'Login failed' };
     } catch (error: any) {
-      const raw = error.response?.data?.error || error.message || 'Login failed';
-      const message = typeof raw === 'string' ? raw : JSON.stringify(raw);
-      return { success: false, error: message };
+      const msg = error?.message;
+      if (typeof msg === 'string' && msg) {
+        return { success: false, error: msg };
+      }
+      if (msg && typeof msg === 'object') {
+        return { success: false, error: JSON.stringify(msg) };
+      }
+      return { success: false, error: 'Login failed. Please try again.' };
     }
   },
 

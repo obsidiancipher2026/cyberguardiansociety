@@ -14,7 +14,10 @@ function toErrorMessage(raw: unknown): string {
   if (typeof raw === 'string') return raw;
   if (raw && typeof raw === 'object') {
     const obj = raw as Record<string, unknown>;
-    return String(obj.error || obj.message || JSON.stringify(raw));
+    const msg = obj.error || obj.message;
+    if (typeof msg === 'string') return msg;
+    if (msg && typeof msg === 'object') return JSON.stringify(msg);
+    return JSON.stringify(raw);
   }
   return String(raw || 'An unexpected error occurred');
 }
@@ -25,7 +28,8 @@ api.interceptors.response.use(
     if (error.response) {
       const { status, data } = error.response;
       if (status === 401 && typeof window !== 'undefined') {
-        if (window.location.pathname.startsWith('/admin')) {
+        const onLoginPage = window.location.pathname === '/admin/login';
+        if (!onLoginPage && window.location.pathname.startsWith('/admin')) {
           window.location.href = '/admin/login';
         }
       }
